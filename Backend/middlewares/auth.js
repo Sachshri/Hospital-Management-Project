@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/userSchema.js'
 // Admin Authentication and Authorization
 export const isAdminAuthenticated = catchAsyncErrors(async (req, res, next) => {
-    const { adminToken: token } = req.body;
+    const { token } = req.body;
     
     if (!token) {
         return next(new ErrorHandler("Admin Not Authenticated", 400));
