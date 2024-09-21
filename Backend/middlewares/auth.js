@@ -21,7 +21,7 @@ export const isAdminAuthenticated = catchAsyncErrors(async (req, res, next) => {
 
 // Patient Authentication and Authorization
 export const isPatientAuthenticated = catchAsyncErrors(async (req, res, next) => {
-    const { patientToken: token } = req.body;
+    const { token } = req.body;
     
     if (!token) {
         return next(new ErrorHandler("Patient Not Authenticated", 400));

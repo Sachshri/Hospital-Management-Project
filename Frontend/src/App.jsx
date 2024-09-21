@@ -20,11 +20,16 @@ const App = () => {
     const fetchUser = async () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/api/v1/user/patient/me`, {
-          method: "GET",
+          method: "POST",
           credentials: "include", // To include cookies in the request
           headers: {
             "Content-Type": "application/json", // Optional if not sending a body
+            // getSetCookies: true,
+             Cookie: "token:" + localStorage.getItem("token"),
           },
+          //send token with body
+          body: JSON.stringify({ token: localStorage.getItem("token") }),
+          
         });
 
         if (!response.ok) {

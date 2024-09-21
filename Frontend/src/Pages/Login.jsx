@@ -35,6 +35,9 @@ const Login = () => {
       }
 
       const res = await response.json();
+      //set cookie to the browser
+      localStorage.setItem("token", res.token);
+      document.cookie = `token=${res.token}; path=/;`;
       toast.success(res.message);
       setIsAuthenticated(true);
       navigateTo("/");
