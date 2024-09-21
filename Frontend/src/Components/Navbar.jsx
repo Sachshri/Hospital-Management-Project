@@ -5,11 +5,18 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Context } from "../main";
 
+
+
 const Navbar = () => {
   const [show, setShow] = useState(false);
   const { isAuthenticated, setIsAuthenticated } = useContext(Context);
 
+  const navigateTo = useNavigate();
+
   const handleLogout = async () => {
+    localStorage.setItem("token", "");
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    navigateTo("/login");
     await axios
       .get(`${import.meta.env.VITE_BACKEND_ADDRESS}/api/v1/user/patient/logout`, {
         withCredentials: true,
@@ -23,7 +30,7 @@ const Navbar = () => {
       });
   };
 
-  const navigateTo = useNavigate();
+
 
   const goToLogin = () => {
     navigateTo("/login");

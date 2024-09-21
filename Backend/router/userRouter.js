@@ -11,6 +11,6 @@ router.post('/doctor/addnew',isAdminAuthenticated,addNewDoctor)
 router.get('/doctors',getAllDoctors)
 router.post('/admin/me',isAdminAuthenticated,getUserDetails)
 router.post('/patient/me',isPatientAuthenticated,getUserDetails)
-router.get('/patient/logout',isPatientAuthenticated,logoutPatient)
+router.get('/patient/logout',logoutPatient)
 router.get('/admin/logout',isAdminAuthenticated,logoutAdmin)
 export default router
