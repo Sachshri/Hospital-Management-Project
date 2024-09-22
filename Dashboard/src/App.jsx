@@ -39,7 +39,7 @@ const App = () => {
         } else {
           setIsAuthenticated(false);
         }
-        setUser(data.users);
+        setAdmin(data.users);
       } catch (error) {
         setIsAuthenticated(false);
         setAdmin({});
