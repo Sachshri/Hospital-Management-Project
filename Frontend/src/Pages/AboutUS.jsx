@@ -1,7 +1,7 @@
 import React from "react";
 import Hero from "../Components/Hero";
 import Biography from "../Components/Biography";
-const AboutUs = () => {
+const AboutUS = () => {
   return (
     <>
       <Hero
@@ -13,4 +13,4 @@ const AboutUs = () => {
   );
 };
 
-export default AboutUs;
+export default AboutUS;
