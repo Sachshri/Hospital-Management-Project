@@ -191,10 +191,11 @@ const SymptomSelect = () => {
       }
 
       const data = await response.json();
-      if (data.disease && data.doctor_type) {
+      if (data.disease && data.doctor_type && data.disease_description) {
         setDiseaseInfo(data);
       } else {
         setError("Invalid response from the server.");
+        console.log(data)
       }
     } catch (error) {
       setError(error.message || "An unknown error occurred.");
@@ -278,6 +279,9 @@ const SymptomSelect = () => {
             <p><strong>Disease:</strong> {diseaseInfo.disease.join(', ')}</p>
             <br />
             <p><strong>Doctor Type:</strong> {diseaseInfo.doctor_type.join(', ')}</p>
+            <br />
+            <br />
+            <p><strong>Disease Description:</strong> {diseaseInfo.disease_description.join(', ')}</p>
             <br />
             <hr />
           </div>
