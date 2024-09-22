@@ -2,16 +2,16 @@ import React, { useContext, useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
+import ShriDetector from "./Pages/ShriDetector";
 import Appointment from "./Pages/Appointment";
 import AboutUs from "./Pages/AboutUs";
 import Register from "./Pages/Register";
 import Footer from "./components/Footer";
-import Navbar from "./Components/Navbar";
-import { ToastContainer, toast } from "react-toastify";
+import Navbar from "./components/Navbar";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Context } from "./main";
 import Login from "./Pages/Login";
-import ShriDetector from "./Pages/ShriDetector";
 
 const App = () => {
   const { isAuthenticated, setIsAuthenticated, setUser } = useContext(Context);
@@ -19,41 +19,37 @@ const App = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/api/v1/user/patient/me`, {
-          method: "POST",
-          credentials: "include", // To include cookies in the request
-          headers: {
-            "Content-Type": "application/json", // Optional if not sending a body
-            // getSetCookies: true,
-             Cookie: "token:" + localStorage.getItem("token"),
-          },
-          //send token with body
-          body: JSON.stringify({ token: localStorage.getItem("token") }),
-          
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_ADDRESS || "http://localhost:4000"}/api/v1/user/patient/me`,
+          {
+            method: "GET",
+            credentials: "include", // To include cookies in the request
+            headers: {
+              "Content-Type": "application/json", // Optional in GET, good practice to include
+            },
+          }
+        );
 
         if (!response.ok) {
-          // Handle non-200 HTTP responses
           throw new Error(`Error: ${response.status} - ${response.statusText}`);
         }
 
-        const data = await response.json(); // Automatic JSON transformation
+        const data = await response.json(); 
         setIsAuthenticated(true);
-        setUser(data.user);
+        setUser(data.users); // Corrected 'user' to 'users' based on backend response
       } catch (error) {
         setIsAuthenticated(false);
         setUser({});
-        toast.error("Failed to fetch user data"); // Use toast to show an error notification
-        console.error("Fetch Error:", error);
+        console.error("Fetch Error:", error); // Log error for debugging
       }
     };
 
-    fetchUser();
-  }, [isAuthenticated, setIsAuthenticated, setUser]);
+    fetchUser(); 
+  }, [setIsAuthenticated, setUser]);
 
   return (
     <>
-      <Router>
+         <Router>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -71,4 +67,3 @@ const App = () => {
 };
 
 export default App;
-

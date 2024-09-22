@@ -4,7 +4,7 @@ import { Context } from "../main";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 
 const Login = () => {
-  const { isAuthenticated, setIsAuthenticated } = useContext(Context);
+  const { isAuthenticated, setIsAuthenticated, setUser } = useContext(Context);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,13 +14,14 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/api/v1/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include", // Include cookies in the request
+        credentials: "include", // This will send cookies with the request
         body: JSON.stringify({
           email,
           password,
@@ -31,23 +32,19 @@ const Login = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Login failed");
+        throw new Error(errorData.message);
       }
 
-      const res = await response.json();
-      //set cookie to the browser
-      localStorage.setItem("token", res.token);
-      document.cookie = `token=${res.token}; path=/;`;
-      toast.success(res.message);
+      const data = await response.json();
+      toast.success(data.message);
       setIsAuthenticated(true);
-      navigateTo("/");
-      
-      // Clear the form fields after successful login
+      setUser(data.user); // Set user context
+      navigateTo("/"); // Redirect to home
       setEmail("");
       setPassword("");
       setConfirmPassword("");
     } catch (error) {
-      toast.error("Error: " + error.message);
+      toast.error(error.message);
     }
   };
 
@@ -60,31 +57,21 @@ const Login = () => {
       <div className="container form-component login-form">
         <h2>Welcome Back!</h2>
         <p>We're glad to see you again! Please log in to continue and access all our features and services.</p>
-        <p>
-          Logging in helps us provide you with a personalized experience. If you have any issues or need help, feel free to reach out to our support team!
-        </p>
         <form onSubmit={handleLogin}>
           <input
-            type="email"
-            id="email"
-            name="email"
+            type="text"
             placeholder="Email"
-            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
-            id="password"
-            name="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <input
             type="password"
-            id="confirmPassword"
-            name="confirmPassword"
             placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -114,5 +101,3 @@ const Login = () => {
 };
 
 export default Login;
-
-
