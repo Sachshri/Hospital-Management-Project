@@ -1,0 +1,17 @@
+.gradient-text {
+    display: inline-block;
+    background: linear-gradient(90deg, red, blue, green, yellow, purple);
+    background-size: 300% 100%; /* Control the size of the gradient */
+    background-clip: text;
+    -webkit-text-fill-color: transparent; /* Make text transparent to show gradient */
+    animation: gradient-animation 5s linear infinite; /* Control animation speed */
+  }
+  
+  @keyframes gradient-animation {
+    0% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: 100% 0%;
+    }
+  }

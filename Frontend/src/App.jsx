@@ -35,7 +35,12 @@ const App = () => {
         }
 
         const data = await response.json(); 
-        setIsAuthenticated(true);
+        const token = localStorage.getItem("token");
+        if (token) {
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
         setUser(data.users); // Corrected 'user' to 'users' based on backend response
       } catch (error) {
         setIsAuthenticated(false);
