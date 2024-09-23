@@ -115,7 +115,7 @@ const Dashboard = () => {
               <div>
                 <p>Hello,</p>
                 <h5>
-                  {admin.firstName ? `${admin.firstname}` : "Admin"}
+                  {admin.firstName ? `${admin.firstName}` : "Admin"}
                 </h5>
               </div>
               <p>
